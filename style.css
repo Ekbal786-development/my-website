@@ -52,10 +52,13 @@ header {
     color: white;
     padding: 20px;
     text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
+
 nav {
-    margin-bottom: 10px;
     margin-bottom: 15px;
 }
 
@@ -69,12 +72,11 @@ nav a {
 }
 
 nav a.active {
-    background-color: yellow;
-    color: black;
+    border-bottom: 2px solid #ffffff;
 }
 
 nav a:hover {
-    text-decoration: underline;
+    text-decoration: none;
     background-color: rgba(255, 255, 255, 0.15);
 }
 
@@ -83,6 +85,7 @@ section {
     padding: 20px;
     margin: 20px 0;
     margin-bottom: 30px;
+    scroll-margin-top: 150px;
     border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -157,13 +160,6 @@ textarea:focus {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-
-
-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 footer {

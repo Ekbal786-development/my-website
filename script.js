@@ -26,31 +26,43 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* ===============================
-       ACTIVE NAVBAR HIGHLIGHT
-    ================================ */
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll("nav a");
+/* ===============================
+   STABLE ACTIVE NAVBAR LOGIC
+   (Sticky-header aware)
+================================ */
 
-    window.addEventListener("scroll", () => {
-        let current = "";
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll("nav a");
+const header = document.querySelector("header");
 
-        sections.forEach(section => {
-            const top = section.offsetTop - 100;
-            const height = section.offsetHeight;
+function updateActiveNav() {
+    const headerHeight = header.offsetHeight;
+    let currentSectionId = null;
 
-            if (window.scrollY >= top && window.scrollY < top + height) {
-                current = section.getAttribute("id");
-            }
-        });
+    sections.forEach(section => {
+        const sectionTop =
+            section.getBoundingClientRect().top - headerHeight;
 
-        navLinks.forEach(link => {
-            link.classList.remove("active");
-            if (link.getAttribute("href") === `#${current}`) {
-                link.classList.add("active");
-            }
-        });
+        if (sectionTop <= 0) {
+            currentSectionId = section.id;
+        }
     });
+
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (
+            currentSectionId &&
+            link.getAttribute("href") === `#${currentSectionId}`
+        ) {
+            link.classList.add("active");
+        }
+    });
+}
+
+// Run on scroll + load
+window.addEventListener("scroll", updateActiveNav);
+window.addEventListener("load", updateActiveNav);
+
 
     /* ===============================
        SCROLL TO TOP BUTTON
