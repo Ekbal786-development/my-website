@@ -1,72 +1,70 @@
-// Select form and message area
-const form = document.getElementById("contact-form");
-const message = document.getElementById("form-message");
+document.addEventListener("DOMContentLoaded", () => {
 
-// Handle form submission
-form.addEventListener("submit", function (event) {
-    event.preventDefault(); // stop page reload
+    /* ===============================
+       CONTACT FORM HANDLING
+    ================================ */
+    const form = document.getElementById("contact-form");
+    const message = document.getElementById("form-message");
 
-    // Get form values
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const userMessage = document.getElementById("message").value.trim();
+    if (form && message) {
+        form.addEventListener("submit", (event) => {
+            event.preventDefault(); // STOP page reload
 
-    // Extra safety check (HTML already validates)
-    if (name === "" || email === "" || userMessage === "") {
-        message.textContent = "Please fill in all fields.";
-        message.style.color = "red";
-        return;
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const userMessage = document.getElementById("message").value.trim();
+
+            if (!name || !email || !userMessage) {
+                message.textContent = "Please fill in all fields.";
+                message.style.color = "red";
+                return;
+            }
+
+            message.textContent = "Thank you! Your message has been sent.";
+            message.style.color = "green";
+            form.reset();
+        });
     }
 
-    // Success message
-    message.textContent = "Thank you! Your message has been sent.";
-    message.style.color = "green";
+    /* ===============================
+       ACTIVE NAVBAR HIGHLIGHT
+    ================================ */
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll("nav a");
 
-    // Clear form
-    form.reset();
-});
-
-// Active navbar link on scroll
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll("nav a");
-
-window.addEventListener("scroll", () => {
-    let currentSection = "";
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 80;
-        const sectionHeight = section.offsetHeight;
-
-        if (window.scrollY >= sectionTop &&
-            window.scrollY < sectionTop + sectionHeight) {
-            currentSection = section.getAttribute("id");
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === `#${currentSection}`) {
-            link.classList.add("active");
-        }
-    });
-});
-
-// Scroll to top button
-const scrollBtn = document.getElementById("scrollTopBtn");
-
-if (scrollBtn) {
     window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-        scrollBtn.style.display = "block";
-    } else {
-        scrollBtn.style.display = "none";
-    }
-});
+        let current = "";
 
-scrollBtn.addEventListener("click", () => {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+        sections.forEach(section => {
+            const top = section.offsetTop - 100;
+            const height = section.offsetHeight;
+
+            if (window.scrollY >= top && window.scrollY < top + height) {
+                current = section.getAttribute("id");
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove("active");
+            if (link.getAttribute("href") === `#${current}`) {
+                link.classList.add("active");
+            }
+        });
     });
+
+    /* ===============================
+       SCROLL TO TOP BUTTON
+    ================================ */
+    const scrollBtn = document.getElementById("scrollTopBtn");
+
+    if (scrollBtn) {
+        window.addEventListener("scroll", () => {
+            scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
+        });
+
+        scrollBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    }
+
 });
-}
