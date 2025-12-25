@@ -103,6 +103,34 @@ textarea:focus {
     outline: none;
 }
 
+/* Projects section */
+.project-card {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #3498db;
+}
+
+.project-card h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.project-card p {
+    margin: 10px 0;
+}
+
+.project-card a {
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+}
+
+.project-card a:hover {
+    text-decoration: underline;
+}
+
 
 section:hover {
     transform: translateY(-5px);
