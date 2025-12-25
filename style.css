@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif;
     background-color: #f2f2f2;
     margin: 0;
 }
@@ -75,6 +75,14 @@ section {
     margin: 20px 0;
     border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section h2 {
+    margin-bottom: 10px;
+}
+
+section p {
+    margin-bottom: 15px;
 }
 
 form {
