@@ -1,121 +1,132 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // ---------- Theme (saved) ----------
+  const themeToggle = document.getElementById("theme-toggle");
 
-    /* ===============================
-       CONTACT FORM HANDLING
-    ================================ */
-    const form = document.getElementById("contact-form");
-    const message = document.getElementById("form-message");
+  function setTheme(mode) {
+    // mode: "light" or "dark"
+    document.body.classList.toggle("light", mode === "light");
+    document.body.classList.toggle("dark", mode === "dark");
+    localStorage.setItem("theme", mode);
+    if (themeToggle) themeToggle.textContent = mode === "dark" ? "☀️" : "🌙";
+  }
 
-    if (form && message) {
-        form.addEventListener("submit", (event) => {
-            event.preventDefault(); // STOP page reload
+  const saved = localStorage.getItem("theme");
+  if (saved === "light" || saved === "dark") {
+    setTheme(saved);
+  } else {
+    // default = dark (modern look), you can change to "light" if you prefer
+    setTheme("dark");
+  }
 
-            const name = document.getElementById("name").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const userMessage = document.getElementById("message").value.trim();
-
-            if (!name || !email || !userMessage) {
-                message.textContent = "Please fill in all fields.";
-                message.style.color = "red";
-                return;
-            }
-
-            message.textContent = "Thank you! Your message has been sent.";
-            message.style.color = "green";
-            form.reset();
-        });
-    }
-
-    
-/* ===============================
-   STABLE ACTIVE NAVBAR LOGIC
-   (Sticky-header aware)
-================================ */
-
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll("nav a");
-const header = document.querySelector("header");
-
-function updateActiveNav() {
-    const headerHeight = header.offsetHeight;
-    let currentSectionId = null;
-
-    sections.forEach(section => {
-        const sectionTop =
-            section.getBoundingClientRect().top - headerHeight;
-
-        if (sectionTop <= 0) {
-            currentSectionId = section.id;
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (
-            currentSectionId &&
-            link.getAttribute("href") === `#${currentSectionId}`
-        ) {
-            link.classList.add("active");
-        }
-    });
-}
-
-// Run on scroll + load
-window.addEventListener("scroll", updateActiveNav);
-window.addEventListener("load", updateActiveNav);
-
-
-
-    /* ===============================
-       SCROLL TO TOP BUTTON
-    ================================ */
-    const scrollBtn = document.getElementById("scrollTopBtn");
-
-    if (scrollBtn) {
-        window.addEventListener("scroll", () => {
-            scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
-        });
-
-        scrollBtn.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
-
-    /* ===============================
-   MOBILE NAVBAR TOGGLE
-================================ */
-
-const hamburger = document.getElementById("hamburger");
-const mobileNav = document.getElementById("nav-links");
-
-if (hamburger && mobileNav) {
-    hamburger.addEventListener("click", () => {
-        mobileNav.classList.toggle("show");
-    });
-}
-
-/* ===============================
-   DARK MODE TOGGLE
-================================ */
-
-const themeToggle = document.getElementById("theme-toggle");
-
-// Load saved theme
-if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark");
-    themeToggle.textContent = "☀️";
-}
-
-if (themeToggle) {
+  if (themeToggle) {
     themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark");
-
-        const isDark = document.body.classList.contains("dark");
-
-        themeToggle.textContent = isDark ? "☀️" : "🌙";
-        localStorage.setItem("theme", isDark ? "dark" : "light");
+      const isDark = document.body.classList.contains("dark");
+      setTheme(isDark ? "light" : "dark");
     });
-}
+  }
 
+  // ---------- Contact form (no reload + feedback) ----------
+  const form = document.getElementById("contact-form");
+  const message = document.getElementById("form-message");
 
+  if (form && message) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name")?.value.trim();
+      const email = document.getElementById("email")?.value.trim();
+      const msg = document.getElementById("message")?.value.trim();
+
+      if (!name || !email || !msg) {
+        message.textContent = "Please fill in all fields.";
+        message.style.color = "crimson";
+        return;
+      }
+
+      message.textContent = "Thanks! Your message is ready (demo form).";
+      message.style.color = "seagreen";
+      form.reset();
+    });
+  }
+
+  // ---------- Scroll to top ----------
+  const scrollBtn = document.getElementById("scrollTopBtn");
+
+  function updateScrollBtn() {
+    if (!scrollBtn) return;
+    scrollBtn.style.display = window.scrollY > 500 ? "block" : "none";
+  }
+
+  if (scrollBtn) {
+    window.addEventListener("scroll", updateScrollBtn, { passive: true });
+    updateScrollBtn();
+
+    scrollBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  // ---------- Active nav highlight (sticky-navbar aware) ----------
+  const sections = document.querySelectorAll("main section[id]");
+  const desktopLinks = document.querySelectorAll("#desktop-links a[href^='#']");
+  const navbar = document.querySelector(".navbar");
+
+  function setActiveLink(id) {
+    desktopLinks.forEach((a) => {
+      a.classList.toggle("active", a.getAttribute("href") === `#${id}`);
+    });
+  }
+
+  function updateActiveNav() {
+    if (!navbar) return;
+
+    const offset = navbar.offsetHeight + 20;
+    let current = sections[0]?.id || "";
+
+    sections.forEach((sec) => {
+      const top = sec.getBoundingClientRect().top - offset;
+      if (top <= 0) current = sec.id;
+    });
+
+    setActiveLink(current);
+  }
+
+  window.addEventListener("scroll", updateActiveNav, { passive: true });
+  window.addEventListener("load", updateActiveNav);
+  updateActiveNav();
+
+  // ---------- Mobile drawer (off-canvas) ----------
+  const menuBtn = document.getElementById("menu-btn");
+  const drawer = document.getElementById("mobile-drawer");
+  const backdrop = document.getElementById("backdrop");
+  const closeDrawerBtn = document.getElementById("close-drawer");
+  const mobileLinks = document.querySelectorAll("#mobile-links a[href^='#']");
+
+  function openDrawer() {
+    if (!drawer || !backdrop || !menuBtn) return;
+    drawer.hidden = false;
+    backdrop.hidden = false;
+    menuBtn.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeDrawer() {
+    if (!drawer || !backdrop || !menuBtn) return;
+    drawer.hidden = true;
+    backdrop.hidden = true;
+    menuBtn.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  if (menuBtn) menuBtn.addEventListener("click", openDrawer);
+  if (closeDrawerBtn) closeDrawerBtn.addEventListener("click", closeDrawer);
+  if (backdrop) backdrop.addEventListener("click", closeDrawer);
+
+  mobileLinks.forEach((link) => {
+    link.addEventListener("click", closeDrawer);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDrawer();
+  });
 });
