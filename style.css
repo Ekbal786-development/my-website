@@ -8,10 +8,51 @@
 
 body.dark {
     --bg-color: #121212;
-    --text-color: #e0e0e0;
+    --text-color: #e6e6e6;
     --card-bg: #1e1e1e;
-    --header-bg: #1f1f1f;
+    --header-bg: #1a1a1a;
     --accent-color: #4aa3ff;
+}
+
+body.dark h1,
+body.dark h2,
+body.dark h3 {
+    color: #ffffff;
+}
+
+body.dark p,
+body.dark li,
+body.dark label {
+    color: #d0d0d0;
+}
+
+body.dark header,
+body.dark footer {
+    background-color: #1a1a1a;
+}
+
+body.dark nav a.active {
+    border-bottom-color: 2px solid var(--accent-color);
+}
+body.dark section,
+body.dark .project-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+body.dark input,
+body.dark textarea {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+    color: #aaaaaa;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
 }
 
 
@@ -25,6 +66,20 @@ body {
     color: var(--text-color);
     margin: 0;
 }
+body,
+header,
+section,
+.project-card,
+footer {
+    transition: 
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+body.dark ul li {
+    color: #e0e0e0;
+}
+
 
 h1 {
     color: #2c3e50;
@@ -40,11 +95,16 @@ p {
 }
 
 ul {
-    background-color: white;
+    background-color: var(--card-bg);
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 8px;
     max-width: 300px;
 }
+
+ul li {
+    margin-bottom: 8px;
+}
+
 
 button {
     background-color: #3498db;
