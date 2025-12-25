@@ -54,7 +54,8 @@ window.addEventListener("scroll", () => {
 // Scroll to top button
 const scrollBtn = document.getElementById("scrollTopBtn");
 
-window.addEventListener("scroll", () => {
+if (scrollBtn) {
+    window.addEventListener("scroll", () => {
     if (window.scrollY > 300) {
         scrollBtn.style.display = "block";
     } else {
@@ -68,4 +69,4 @@ scrollBtn.addEventListener("click", () => {
         behavior: "smooth"
     });
 });
-
+}
