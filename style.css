@@ -62,6 +62,31 @@ nav {
     margin-bottom: 15px;
 }
 
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    gap: 10px;
+}
+
+.hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+
 nav a {
     color: white;
     margin: 0 10px;
@@ -194,6 +219,26 @@ footer p {
 
     button {
         width: 100%;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: #2c3e50;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .nav-links a {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .hamburger {
+        display: block;
     }
 }
 
