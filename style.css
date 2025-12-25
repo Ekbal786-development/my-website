@@ -68,6 +68,10 @@ nav a {
     font-weight: bold;
 }
 
+nav a.active {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
 nav a:hover {
     text-decoration: underline;
     background-color: rgba(255, 255, 255, 0.15);
@@ -198,4 +202,14 @@ footer p {
 
 header h1, header p, footer p {
     color: white;
+}
+
+#scrollTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 12px;
+    font-size: 16px;
+    display: none;
+    z-index: 1000;
 }
