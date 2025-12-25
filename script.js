@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    
 /* ===============================
    STABLE ACTIVE NAVBAR LOGIC
    (Sticky-header aware)
@@ -64,6 +65,7 @@ window.addEventListener("scroll", updateActiveNav);
 window.addEventListener("load", updateActiveNav);
 
 
+
     /* ===============================
        SCROLL TO TOP BUTTON
     ================================ */
@@ -78,5 +80,18 @@ window.addEventListener("load", updateActiveNav);
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
     }
+
+    /* ===============================
+   MOBILE NAVBAR TOGGLE
+================================ */
+
+const hamburger = document.getElementById("hamburger");
+const mobileNav = document.getElementById("nav-links");
+
+if (hamburger && mobileNav) {
+    hamburger.addEventListener("click", () => {
+        mobileNav.classList.toggle("show");
+    });
+}
 
 });
